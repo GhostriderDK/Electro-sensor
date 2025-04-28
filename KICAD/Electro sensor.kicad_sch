@@ -8008,6 +8008,44 @@
 			)
 		)
 	)
+	(sheet
+		(at 255.27 76.2)
+		(size 22.86 44.45)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "18108cae-0333-45b9-ba30-4595e6c49f52")
+		(property "Sheetname" "Prototype 1"
+			(at 255.27 75.4884 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Prototype_1.kicad_sch"
+			(at 255.27 121.2346 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "Electro sensor"
+				(path "/1d9c6842-7f0f-44fd-ad80-972fbd78bf22"
+					(page "2")
+				)
+			)
+		)
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")
