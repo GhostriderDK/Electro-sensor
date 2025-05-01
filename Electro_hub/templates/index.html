@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <title>Køretøjsregistrering</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1, h2 { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <h1>Køretøjsregistrering</h1>
+    <p><strong>Systemtid online:</strong> {{ uptime }}</p>
+    <p><strong>Sidste registrering:</strong> {{ last_registration if last_registration else "Ingen endnu" }}</p>
+
+    <h2>Seneste 25 registreringer</h2>
+    <table>
+        <tr>
+            <th>Tidspunkt</th>
+            <th>Data</th>
+        </tr>
+        {% for ts, data in registrations %}
+        <tr>
+            <td>{{ ts }}</td>
+            <td>{{ data }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Registreringstendens</h2>
+    <img src="/trend.png" alt="Tendensgraf">
+</body>
+</html>
