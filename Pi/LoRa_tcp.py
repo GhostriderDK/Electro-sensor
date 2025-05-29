@@ -13,12 +13,10 @@ RESET = digitalio.DigitalInOut(board.D25)
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
 rfm9x = adafruit_rfm9x.RFM9x(spi, CS, RESET, RADIO_FREQ_MHZ, baudrate=1000000)
 
-# MQTT setup
 mqtt_broker = "77.33.140.232"
 mqtt_port = 1883
 mqtt_topic = "vehicle/registration"
 
-# Create MQTT client and connect
 client = mqtt.Client()
 client.connect(mqtt_broker, mqtt_port, 60)
 
@@ -30,11 +28,9 @@ def listen_and_ack(rfm9x):
         if packet is not None:
             try:
                 msg = packet.decode("utf-8").strip()
-                print(f"Received: {msg}\n")  # Log the raw message
-
-                # Extract the sequence number from the message
+                print(f"Received: {msg}\n") 
                 try:
-                    received_seq = int(msg.split(",")[0].strip())  # Assuming the sequence number is the first part
+                    received_seq = int(msg.split(",")[0].strip()) 
                 except ValueError:
                     print("Error: Unable to parse sequence number from message.")
                     reply = "Error: Invalid sequence format"
@@ -44,7 +40,6 @@ def listen_and_ack(rfm9x):
                     continue
 
                 if received_seq == expected_seq:
-                    # Handle expected sequence
                     if "hello on network" in msg:
                         reply = f"{expected_seq}, pi_1 hello esp32_1 online"
                     elif "ready for operation" in msg:
@@ -52,7 +47,6 @@ def listen_and_ack(rfm9x):
                     elif "reg v" in msg:
                         reply = f"{expected_seq}, pi received"
 
-                        # Publish message
                         message = {
                             "timestamp": datetime.now().isoformat(),
                             "vehicle_registered": True
@@ -63,10 +57,9 @@ def listen_and_ack(rfm9x):
                         reply = f"{expected_seq}, pi ack"
                     rfm9x.send(reply.encode())
                     print(f"Sent: {reply}\n")
-                    sleep(0.1)  # Short delay to ensure the message is sent
+                    sleep(0.1) 
                     expected_seq += 1
                 else:
-                    # Handle unexpected sequence numbers
                     print(f"Unexpected sequence received: {received_seq}, expected: {expected_seq}")
                     reply = f"{received_seq}, pi unexpected seq received"
                     rfm9x.send(reply.encode())
