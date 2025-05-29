@@ -5,6 +5,7 @@ import adafruit_rfm9x
 from time import sleep
 from datetime import datetime
 import paho.mqtt.client as mqtt
+import json
 
 RADIO_FREQ_MHZ = 868.0
 CS = digitalio.DigitalInOut(board.CE1)
@@ -56,7 +57,7 @@ def listen_and_ack(rfm9x):
                             "timestamp": datetime.now().isoformat(),
                             "vehicle_registered": True
                         }
-                        client.publish(mqtt_topic, str(message))
+                        client.publish(mqtt_topic, json.dumps(message))
                         print(f"Published to MQTT: {message}")
                     else:
                         reply = f"{expected_seq}, pi ack"
@@ -72,7 +73,7 @@ def listen_and_ack(rfm9x):
                     print(f"Sent: {reply}")
                     sleep(0.1)
                     # Update expected_seq to the received sequence number
-                    expected_seq = received_seq + 1
+                    expected_seq = received_seq
             except UnicodeDecodeError as e:
                 print(f"Error decoding packet: {e}")
                 print(f"Raw packet: {packet}")

@@ -127,7 +127,7 @@ def listen_and_ack(rfm9x):
                     print(f"Sent: {reply}")
                     sleep(0.1)
                     # Update expected_seq to the received sequence number
-                    expected_seq = received_seq + 1
+                    expected_seq = received_seq
             except UnicodeDecodeError as e:
                 print(f"Error decoding packet: {e}")
                 print(f"Raw packet: {packet}")
